@@ -1,21 +1,18 @@
 FROM linuzilla/alpine-sshd:latest
 MAINTAINER Mac Liu <linuzilla@gmail.com>
 
+COPY files/my.cnf /etc/mysql/my.cnf
+COPY files/09init-mysql.sh /etc/init-scripts
+COPY files/supervisord-mysql.conf /etc/supervisor.d/mysql.conf
+
 RUN apk update \
-    && apk add bash mariadb mariadb-client
+    && apk add bash mariadb mariadb-client; \
+    rm -rf /var/cache/apk/* && rm -rf /tmp/src; \
+    chmod +x /etc/init-scripts/09init-mysql.sh
 
 ENV MARIADB_USERID ""
 ENV DB_USER "admin"
 ENV DB_PASS "password"
 
-RUN rm -rf /var/cache/apk/* && rm -rf /tmp/src
-
-ADD files/my.cnf /etc/mysql/my.cnf
-ADD files/run.sh /run.sh
-COPY files/supervisord.conf /etc/supervisord.conf
-RUN chmod +x /run.sh
-
-EXPOSE 22 3306
+EXPOSE 3306
 VOLUME [ "/data" ]
-
-CMD ["/run.sh"]

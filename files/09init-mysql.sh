@@ -5,7 +5,6 @@ mkdir -p /data/db/mysql/
 mkdir -p /data/conf
 mkdir -p /var/run/mysqld
 
-
 if [ "${MARIADB_USERID}" != "" ]; then
 	sed -i "s/mysql:x:[0-9]*:/mysql:x:${MARIADB_USERID}:/" /etc/passwd
 fi
@@ -36,5 +35,3 @@ if [ ! -f /data/db/mysql/ibdata1 ]; then
 fi
 
 # mysqld_safe --user=mysql --datadir="/data/db/mysql"
-
-supervisord --nodaemon --configuration /etc/supervisord.conf

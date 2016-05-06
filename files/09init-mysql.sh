@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 mkdir -p /data/log/mysql
 mkdir -p /data/db/mysql/
@@ -10,6 +10,7 @@ if [ "${MARIADB_USERID}" != "" ]; then
 fi
 
 chown -R mysql: /data /var/run/mysqld
+chmod og-rwx /data
 
 if [ ! -f /data/conf/my.cnf ]; then
     mv /etc/mysql/my.cnf  /data/conf/my.cnf
